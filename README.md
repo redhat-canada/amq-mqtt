@@ -20,7 +20,7 @@ From a Mac or Linux terminal, run:
 ./cert.sh mypassword
 ```
 
-Where `mypassword` is any password you would like to use for the keystore.  This will use the Java keytool to generate a keystore and trustore, then encode them in a `secret` that will get added to the `/broker/instance` directory.  This secret is already added to the `.gitignore` file, so it will **not** be pushed to your git repo.
+Where `mypassword` is any password you would like to use for the keystore.  This will use the Java keytool to generate a keystore and trustore, then encode them in a `secret` that will get added to the `manifests/broker` directory.  This secret is already added to the `.gitignore` file, so it will **not** be pushed to your git repo.
 
 ## Broker Instance
 

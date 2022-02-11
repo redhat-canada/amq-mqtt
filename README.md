@@ -2,12 +2,12 @@
 
 This has been tested on OpenShift 4.8, including Azure Red Hat OpenShift v4.8.
 
-## Setup Broker
+## Install Operators
 
-First, install the AMQ Broker operator.  You can do this through the OpenShift UI as an admin, or by executing the following command using the `oc` cli as a `cluster-admin`.
+First, install the AMQ Broker operator and OpenShift Pipelines operator.  You can do this through the OpenShift UI as an admin, or by executing the following command using the `oc` cli as a `cluster-admin`.
 
 ```
-oc apply -k broker/operator
+oc apply -k manifests/operators
 ```
 
 ## Generate Certificates
@@ -27,15 +27,15 @@ Where `mypassword` is any password you would like to use for the keystore.  This
 Once the operator is installed and you have generated your certificates/secret, you can create a Broker instance and the Topic.
 
 ```
-oc apply -k broker/instance
+oc apply -k manifests/broker
 ```
 
-## Setup OpenShift Pipelines
+## Build and Deploy Consumer Application
 
-If you want to automate the build and deployment of the sample app, you can use OpenShift Pipelines.
-
-First, install the OpenShift Pipelines operator.  You can do this through the OperatorHub catalog in the OpenShift Admin UI, or by running the following command as a `cluster-admin`.
+Once the broker is up and running, you can build and deploy the "amq-mqtt" consumer application.
 
 ```
-oc apply -k pipelines/operator
+oc apply -k manifests/consumer
 ```
+
+This will kick off a small Tekton pipeline to build and deploy the app.

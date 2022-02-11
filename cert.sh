@@ -17,6 +17,6 @@ oc create secret generic amq-mqtt-mqtt-secret \
     -n amq-mqtt \
     --dry-run=client \
     -o yaml \
-    > broker/instance/amq-mqtt-mqtt-secret.yaml
+    > manifests/broker/amq-mqtt-mqtt-secret.yaml
 
 # oc secrets link sa/amq-broker-operator secret/amq-mqtt-mqtt-secret -n amq-mqtt

@@ -11,7 +11,7 @@ keytool -genkey -alias client -keyalg RSA -keystore client.ks -storepass $1 -dna
 keytool -import -alias broker -keystore client.ts -file broker_cert -storepass $1 -noprompt
 oc create secret generic amq-mqtt-mqtt-secret \
     --from-file=broker.ks=broker.ks \
-    --from-file=client.ts=client.ts \
+    --from-file=client.ts=broker.ks \
     --from-literal=keyStorePassword=$1 \
     --from-literal=trustStorePassword=$1 \
     -n amq-mqtt \

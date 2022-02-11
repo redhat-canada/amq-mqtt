@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: amq-mqtt
 
 resources:
+  - amq-broker-sa.yaml
   - amq-broker.yaml
   - amq-topic.yaml
   - amq-mqtt-mqtt-secret.yaml

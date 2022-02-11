@@ -11,13 +11,12 @@ keytool -genkey -alias client -keyalg RSA -keystore client.ks -storepass $1 -dna
 keytool -import -alias broker -keystore client.ts -file broker_cert -storepass $1 -noprompt
 oc create secret generic amq-mqtt-mqtt-secret \
     --from-file=broker.ks=broker.ks \
-    --from-file=client.ts=broker.ks \
+    --from-file=client.ts=client.ts \
     --from-literal=keyStorePassword=$1 \
     --from-literal=trustStorePassword=$1 \
     -n amq-mqtt \
     --dry-run=client \
     -o yaml \
     > broker/instance/amq-mqtt-mqtt-secret.yaml
-
 
 # oc secrets link sa/amq-broker-operator secret/amq-mqtt-mqtt-secret -n amq-mqtt

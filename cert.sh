@@ -1,14 +1,22 @@
 #!/bin/bash
 
-keytool -genkey -alias broker -keyalg RSA -keystore broker.ks -storepass XXXXXX -dname CN=$AMQ_MQTT_ROUTE_HOST
-keytool -export -alias broker -keystore broker.ks -file broker_cert -storepass XXXXXX 
-keytool -genkey -alias client -keyalg RSA -keystore client.ks -storepass XXXXXX -dname CN=localhost
-keytool -import -alias broker -keystore client.ts -file broker_cert -storepass XXXXXX -noprompt
-oc create secret generic amq-mqtt-mqtt-secret \
---from-file=broker.ks=broker.ks \
---from-file=client.ts=broker.ks \
---from-literal=keyStorePassword=XXXXXX \
---from-literal=trustStorePassword=XXXXXX \
- -n amq-mqtt
+# Get cluster apps domain
+appsurl=$(oc get ingresses.config.openshift.io cluster  -o template --template '{{.spec.domain}}')
+brokerurl="amq-mqtt-mqtt-0-svc-rte-amq-mqtt.$appsurl"
+echo "Broker URL: $brokerurl"
 
- oc secrets link sa/amq-broker-operator secret/amq-mqtt-mqtt-secret -n amq-mqtt
+keytool -genkey -alias broker -keyalg RSA -keystore broker.ks -storepass $1 -dname CN=$brokerurl
+keytool -export -alias broker -keystore broker.ks -file broker_cert -storepass $1 
+keytool -genkey -alias client -keyalg RSA -keystore client.ks -storepass $1 -dname CN=localhost
+keytool -import -alias broker -keystore client.ts -file broker_cert -storepass $1 -noprompt
+oc create secret generic amq-mqtt-mqtt-secret \
+    --from-file=broker.ks=broker.ks \
+    --from-file=client.ts=broker.ks \
+    --from-literal=keyStorePassword=$1 \
+    --from-literal=trustStorePassword=$1 \
+    -n amq-mqtt \
+    --dry-run=client \
+    -o yaml \
+    > manifests/broker/amq-mqtt-mqtt-secret.yaml
+
+# oc secrets link sa/amq-broker-operator secret/amq-mqtt-mqtt-secret -n amq-mqtt

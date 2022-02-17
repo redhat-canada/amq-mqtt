@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: amq-mqtt
+
+resources:
+  - amq-broker-sa.yaml
+  - amq-broker.yaml
+  - amq-topic.yaml
+  - amq-mqtt-mqtt-secret.yaml

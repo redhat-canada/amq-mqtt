@@ -16,8 +16,10 @@ release.properties
 /.java-version
 /src/main/resources/components-*.json
 
-
+# Certificats and secrets
 broker.ks       
 broker_cert     
 client.ks       
 client.ts
+manifests/broker/amq-mqtt-mqtt-secret.yaml
+.vscode/settings.json

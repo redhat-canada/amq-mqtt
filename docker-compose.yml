@@ -1,0 +1,19 @@
+---
+version: '3.8'
+services:
+
+  activemq:
+    image: registry.redhat.io/amq7/amq-broker:latest
+    container_name: activemq
+    environment:
+      - AMQ_USER=admin
+      - AMQ_PASSWORD=admin
+    ports:
+      - "61616:61616"
+      - "8161:8161"  
+    networks:
+      - amq-mqtt
+  
+networks:
+  amq-mqtt:
+    name: amq-mqtt

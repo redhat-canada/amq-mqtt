@@ -17,10 +17,10 @@ public class MqttProducerRoute extends EndpointRouteBuilder {
         properties.setProperty("com.ibm.ssl.keyStore", "../../client.ks");
         properties.setProperty("com.ibm.ssl.keyStorePassword", "123456");
 
-        from(timer("demo").period(2000).repeatCount(3)).routeId("Producer")
-                .setBody(constant("Hello World"))
+        from(timer("demo").period(2000).repeatCount(3000)).routeId("Producer")
+                .setBody(simple("Hello World from {{pdt}}"))
                 .log("${body}")
-                .to(paho("pubsub.topic1").clientId("mqtt-producer").cleanSession(true).qos(2).sslClientProps(properties));
+                .to(paho("goc_cpc.std.apps.dia.events.newstop.item.wc.{{pdt}}.route.{{pdt}}").cleanSession(true).qos(2).sslClientProps(properties));
     }
 
 }

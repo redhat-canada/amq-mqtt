@@ -1,5 +1,6 @@
 package org.example.activemq;
 
+import org.apache.activemq.command.ActiveMQTopic;
 import org.apache.camel.builder.endpoint.EndpointRouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -10,10 +11,14 @@ public class ActiveMqRoute extends EndpointRouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        from(activemq("topic:pubsub.topic1")).routeId("ActiveMQ")
+        from(activemq("topic:goc_cpc.std.apps.dia.events.newstop.item.wc.*.route.*")).routeId("ActiveMQ")
                 .log("${body}")
-                .setBody(simple("${body} + ' + response'"))
-                .to(activemq("topic:pubsub.topic2"));
+                .process(e -> {
+                    ActiveMQTopic topic = e.getIn().getHeader("JMSDestination", ActiveMQTopic.class);
+                    e.getIn().setHeader("pdt", topic.getTopicName().split("\\.")[8]);
+                })
+                .setBody(simple("${body} ' + response'"))
+                .toD(activemq("topic:reply.wc.${header.pdt}.route.${header.pdt}"));
     }
 
 }

@@ -1,5 +1,7 @@
 # AMQ Broker / MQTT / Fuse
 
+![architecture](arc.png)
+
 This has been tested on OpenShift 4.8, including Azure Red Hat OpenShift v4.8.
 
 ## Install Operators

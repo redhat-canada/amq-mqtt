@@ -1,4 +1,4 @@
-# AMQ Broker / MQTT / Fuse
+# AMQ Broker / MQTT / Camel Quarkus
 
 ![architecture](arc.png)
 

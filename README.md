@@ -1,4 +1,4 @@
-# AMQ Broker / MQTT / Camel Quarkus
+# AMQ on OpenShift + MQTT Client + Camel Quarkus Client
 
 ![architecture](arc.png)
 
